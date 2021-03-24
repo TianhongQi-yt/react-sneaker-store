@@ -1,0 +1,134 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Air Jordan 4",
+      "price": "199.99",
+      "tags": "92 ",
+      "image": "/images/1.jpg",
+      "status": "available"
+    },
+    {
+      "id": 2,
+      "name": "Nike Paul George PG 3",
+      "image": "/images/2.jpg",
+      "tags": "25 Colors",
+      "price": "149.99",
+      "status": "unavailable"
+    },
+    {
+      "id": 3,
+      "name": "Jordan Why Not Zer0.2",
+      "image": "/images/3.jpg",
+      "tags": "16 Color, y",
+      "price": "169.99",
+      "status": "available"
+    },
+    {
+      "id": 4,
+      "name": "Nike Air Foamposite One",
+      "image": "/images/4.jpg",
+      "tags": "84 Colors",
+      "price": "249.99",
+      "status": "available"
+    },
+    {
+      "id": 5,
+      "name": "adidas Harden Vol.3",
+      "price": "149.99",
+      "tags": "34 Colors 5",
+      "image": "/images/5.jpg",
+      "status": "available"
+    },
+    {
+      "id": 6,
+      "name": "Nike Zoom Kobe 1",
+      "image": "/images/6.jpg",
+      "tags": "26 Colors",
+      "price": "339.99",
+      "status": "available"
+    },
+    {
+      "id": 7,
+      "name": "Nike Hyperdunk X(2019)",
+      "price": "149.99",
+      "tags": "",
+      "image": "/images/7.jpg",
+      "status": "available"
+    },
+    {
+      "id": 8,
+      "name": "Nike KD 12",
+      "image": "/images/8.jpg",
+      "tags": "",
+      "price": "149.99",
+      "status": "available"
+    },
+    {
+      "name": "adidas D.O.N. Issue #1",
+      "price": "169.99",
+      "status": "available",
+      "tags": "",
+      "image": "/images/9.jpg",
+      "id": 9
+    },
+    {
+      "name": "adidas D.O.N. Issue #1",
+      "price": "139.99",
+      "status": "available",
+      "tags": "",
+      "image": "/images/10.jpg",
+      "id": 10
+    },
+    {
+      "name": "Nike Kyrie Flytrap",
+      "price": "129.99",
+      "status": "available",
+      "tags": "",
+      "image": "/images/11.jpg",
+      "id": 11
+    },
+    {
+      "name": "Air Jordan 3",
+      "price": "199.99",
+      "status": "available",
+      "tags": "",
+      "image": "/images/12.jpg",
+      "id": 12
+    },
+    {
+      "id": 13,
+      "name": "This is a test",
+      "price": "500",
+      "tags": "test",
+      "image": "/images/9.jpg",
+      "status": "available"
+    }
+  ],
+  "carts": [
+    {
+      "productId": 10,
+      "name": "adidas D.O.N. Issue #1",
+      "image": "/images/10.jpg",
+      "price": "139.99",
+      "amount": 7,
+      "id": 1
+    },
+    {
+      "productId": 9,
+      "name": "adidas D.O.N. Issue #1",
+      "image": "/images/9.jpg",
+      "price": "169.99",
+      "amount": 4,
+      "id": 2
+    },
+    {
+      "productId": 8,
+      "name": "Nike KD 12",
+      "image": "/images/8.jpg",
+      "price": "149.99",
+      "amount": 4,
+      "id": 3
+    }
+  ]
+}
