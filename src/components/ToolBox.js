@@ -1,6 +1,6 @@
-
 import React from "react";
-import { Link } from "react-router-dom"; // 跳转连接
+import { withRouter } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // 商品导航栏组件（搜索框，购物车）
 class ToolBox extends React.Component {
@@ -26,6 +26,16 @@ class ToolBox extends React.Component {
       searchText: "",
     });
     this.props.search("");
+  };
+
+  // 事件：跳转至购物车，未登录跳转登录页
+  goCart = () => {
+    if (!localStorage.getItem("jwToken")) {
+      this.props.history.push("/login");
+      toast.warn("Please Login First!");
+      return;
+    }
+    this.props.history.push("/cart");
   };
 
   render() {
@@ -54,15 +64,15 @@ class ToolBox extends React.Component {
             </div>
           </div>
         </div>
-        {/* 购物车，跳转购物车页面 */}
-        <Link to="/cart" className="cart-box">
+        {/* 购物车，登陆后才能跳转购物车页面 */}
+        <div to="/cart" className="cart-box" onClick={this.goCart}>
           <i className="fas fa-shopping-cart"></i>
           {/* 从父组件 Products中接收参数 cartNum */}
           <span className="cart-num">{this.props.cartNum}</span>
-        </Link>
+        </div>
       </div>
     );
   }
 }
 
-export default ToolBox;
+export default withRouter(ToolBox);

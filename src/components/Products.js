@@ -89,7 +89,7 @@ class Products extends React.Component {
 
   // 回调函数：更新购物车数量
   updateCartNum = async () => {
-    const cartNum = await this.getCartNum()
+    const cartNum = await this.getCartNum();
     this.setState({
       cartNum: cartNum,
     });
@@ -97,7 +97,12 @@ class Products extends React.Component {
 
   // 辅助函数：获取购物车数量
   getCartNum = async () => {
-    const res = await axios.get("/carts");
+    const user = global.auth.getUser() || {};
+    const res = await axios.get("/carts", {
+      params: {
+        userId: user.email
+      }
+    });
     const carts = res.data || [];
     const cartNum = carts
       .map((cart) => cart.amount)
@@ -139,10 +144,17 @@ class Products extends React.Component {
               })}
             </TransitionGroup>
           </div>
-          {/* add按钮，绑定 addPanel事件，向子组件 AddInventory传入 callback函数和 AddInventory组件 */}
-          <button className="button is-primary add-btn" onClick={this.addPanel}>
-            add
-          </button>
+          {/* 写法2，和 Product中的 renderManagerBtn对比 */}
+          {/* JSX中不支持逻辑判断语句 */}
+          {(global.auth.getUser() || {}).type === 1 && (
+            // add按钮，绑定 addPanel事件，向子组件 AddInventory传入 callback函数和 AddInventory组件
+            <button
+              className="button is-primary add-btn"
+              onClick={this.addPanel}
+            >
+              add
+            </button>
+          )}
         </div>
       </div>
     );

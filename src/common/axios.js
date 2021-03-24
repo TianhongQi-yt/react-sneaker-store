@@ -7,6 +7,20 @@ const axios = (baseURL) => {
     baseURL: baseURL || "http://localhost:3001",
     timeout: 1000,
   });
+
+  // 拦截器，每次请求验证 JWT
+  instance.interceptors.request.use(
+    (config) => {
+      const jwToken = global.auth.getToken();
+      // 设置 http头部字段为后端验证的字段
+      config.headers.Authorization = "Bearer " + jwToken;
+      return config;
+    },
+    (error) => {
+      // Do something with request error
+      return Promise.reject(error);
+    }
+  );
   return instance;
 };
 

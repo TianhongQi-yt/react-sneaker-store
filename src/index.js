@@ -6,6 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import "css/app.scss";
 import "css/style.scss";
 
+import 'common/authorization'; // 全局导入
+
 // 渲染进根节点元素
 ReactDOM.render(
   <div>

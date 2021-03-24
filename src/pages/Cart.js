@@ -12,12 +12,13 @@ const Cart = () => {
   // 第一次渲染或每次更新后执行回调函数
   // useEffect(callback, [依赖])，依赖变化后会重新调用
   useEffect(() => {
-    axios.get("/carts").then((res) => setCarts(res.data));
+    // 根据登录用户查询购物车信息
+    const user = global.auth.getUser() || {};
+    axios.get(`/carts?userId=${user.email}`).then(res => setCarts(res.data));
   }, []);
 
   // 辅助函数：计算总价格
   const totalPrice = useMemo(() => {
-    console.log(1);
     const totalPrice = carts
       .map((cart) => cart.amount * cart.price)
       .reduce((a, value) => a + value, 0);
@@ -60,13 +61,13 @@ const Cart = () => {
             ))}
           </TransitionGroup>
         </div>
-        {
-          carts.length === 0 ? <p className="no-cart">Cart is Empty</p> : ''
-        }
+        {carts.length === 0 ? <p className="no-cart">Cart is Empty</p> : ""}
         <div className="cart-total">
           Total:
           {/* 精度丢失问题 toFixed(5)保留5位小时 */}
-          <span className="total-price">$ {parseFloat(totalPrice.toFixed(5))}</span>
+          <span className="total-price">
+            $ {parseFloat(totalPrice.toFixed(5))}
+          </span>
         </div>
       </div>
     </Layout>

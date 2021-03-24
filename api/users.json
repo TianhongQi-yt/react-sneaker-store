@@ -1,11 +1,1 @@
-{
-    "users": [
-      {
-        "id": 1,
-        "username": "admin",
-        "email": "admin@163.com",
-        "password": "admin123",
-        "type": 1
-      }
-    ]
-}
+{"users":[{"id":1,"username":"admin","email":"admin@163.com","password":"admin123","type":1},{"id":2,"email":"qiti@usc.edu","password":"111111","username":"qiti","type":0},{"id":3,"email":"test@test.com","password":"test123","username":"test","type":0}]}

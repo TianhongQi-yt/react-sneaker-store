@@ -4,18 +4,23 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 // 登陆组件
-const Login = (props) => {
+const Register = (props) => {
   const { register, handleSubmit, errors } = useForm();
 
-  // 辅助函数：向后端请求 JWT
+  // 事件：注册新用户
   const onSubmit = async (user) => {
     try {
-      const { email, password } = user;
-      const res = await axios.post("/auth/login", { email, password });
+      const { username, email, password } = user;
+      const res = await axios.post("/auth/register", {
+        username,
+        email,
+        password,
+        type: 0,
+      });
       const jwToken = res.data;
-      // 将登录返回的 JWT保存在本地缓存 localStorage中
-      global.auth.setToken(jwToken);
-      toast.success(`Welcome Back!`);
+      // 将注册返回的 JWT保存在本地缓存 localStorage中
+      localStorage.setItem("jwToken", jwToken);
+      toast.success(`Registered Successfully!`);
       // 跳转到首页视图
       props.history.push("/");
     } catch (error) {
@@ -28,7 +33,28 @@ const Login = (props) => {
     // JSX Babel渲染
     <div className="login-wrapper">
       <form className="box login-box" onSubmit={handleSubmit(onSubmit)}>
-        {/* 登录邮箱 */}
+        {/* 注册用户名 */}
+        <div className="field">
+          <label className="label">Username</label>
+          <div className="control">
+            <input
+              className={`input ${errors.username && "is-danger"}`}
+              type="text"
+              placeholder="Username"
+              name="username"
+              ref={register({
+                // 自定义 required的错误信息
+                required: "Username is Required!",
+              })}
+            />
+            {errors.username && (
+              <p className="helper has-text-danger">
+                {errors.username.message}
+              </p>
+            )}
+          </div>
+        </div>
+        {/* 注册邮箱 */}
         <div className="field">
           <label className="label">Email</label>
           <div className="control">
@@ -38,12 +64,11 @@ const Login = (props) => {
               placeholder="Email"
               name="email"
               ref={register({
-                // 自定义 required的错误信息
                 required: "Email is Required!",
                 // 正则表达式规定输入格式
                 pattern: {
                   value: /^[A-Za-z0-9]+([_\\.][A-Za-z0-9]+)*@([A-Za-z0-9\\-]+\.)+[A-Za-z]{2,6}$/,
-                  message: "Invalid Email!",
+                  message: "Invalid Email Format!",
                 },
               })}
             />
@@ -52,7 +77,7 @@ const Login = (props) => {
             )}
           </div>
         </div>
-        {/* 登录密码 */}
+        {/* 注册密码 */}
         <div className="field">
           <label className="label">Password</label>
           <div className="control">
@@ -77,11 +102,11 @@ const Login = (props) => {
           </div>
         </div>
         <div className="control">
-          <button className="button is-fullwidth is-primary">Login</button>
+          <button className="button is-fullwidth is-primary">Register</button>
         </div>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default Register;

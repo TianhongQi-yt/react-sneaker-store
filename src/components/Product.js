@@ -1,12 +1,12 @@
 import React from "react";
 import axios from "common/axios";
 import panel from "components/Panel";
+import { withRouter } from "react-router-dom";
 import { toast } from "react-toastify";
 import EditInventory from "components/EditInventory";
 
 // 单个商品信息组件
 class Product extends React.Component {
-
   // 事件：打开弹出层，并修改商品信息
   // Product作为调用者，通过调用全局组件 panel的 open()方法，
   // 传入回调函数 callback 和 组件 EditInventory给弹出层
@@ -28,25 +28,38 @@ class Product extends React.Component {
     });
   };
 
-  // 事件：添加购物车
+  // 事件：添加购物车，未登录跳转登录页
   addCart = async () => {
+    if (!localStorage.getItem("jwToken")) {
+      this.props.history.push("/login");
+      toast.warn("Please Login First!");
+      return;
+    }
     try {
+      const user = global.auth.getUser() || {};
       const { id, name, image, price } = this.props.product;
       // 先根据 id判断购物车中是否有重复商品
       // 如果有的话只需数量 +1
-      const res = await axios.get(`/carts?productId=${id}`);
+      const res = await axios.get("/carts", {
+        params: {
+          productId: id,
+          userId: user.email,
+        },
+      });
       const carts = res.data;
       if (carts && carts.length > 0) {
         const cart = carts[0];
-        cart.amount ++;
+        cart.amount++;
         await axios.put(`/carts/${cart.id}`, cart);
       } else {
+        // 未重复，新添加商品
         const cart = {
           productId: id,
           name,
           image,
           price,
           amount: 1,
+          userId: user.email,
         };
         await axios.post("/carts", cart);
       }
@@ -58,9 +71,20 @@ class Product extends React.Component {
     }
   };
 
-  // 辅助函数：转美元
-  formatPrice = (p) => {
-    return "$ " + p;
+  // 辅助函数：登陆后渲染编辑商品按钮
+  renderManagerBtn = () => {
+    const user = global.auth.getUser() || {};
+    // type类型 1为管理人员
+    if (user.type === 1) {
+      return (
+        // 管理商品按钮(此处不是JSX，不能使用 JSX语法写注释)
+        <div className="p-head has-text-right" onClick={this.editPanel}>
+          <span className="icon edit-btn">
+            <i className="fas fa-sliders-h"></i>
+          </span>
+        </div>
+      );
+    }
   };
 
   render() {
@@ -72,12 +96,7 @@ class Product extends React.Component {
     return (
       <div className={_pClass[status]}>
         <div className="p-content">
-          {/* 修改按钮 */}
-          <div className="p-head has-text-right" onClick={this.editPanel}>
-            <span className="icon edit-btn">
-              <i className="fas fa-sliders-h"></i>
-            </span>
-          </div>
+          {this.renderManagerBtn()}
           {/* image */}
           <div className="img-wrapper">
             <div className="out-stock-text">Out Of Stock</div>
@@ -91,7 +110,7 @@ class Product extends React.Component {
         </div>
         {/* 价格，购物车 */}
         <div className="p-footer">
-          <p className="price">{this.formatPrice(price)}</p>
+          <p className="price">$ {price}</p>
           <button
             className="add-cart"
             disabled={status === "unavailable"}
@@ -106,4 +125,4 @@ class Product extends React.Component {
   }
 }
 
-export default Product;
+export default withRouter(Product);
