@@ -3,7 +3,7 @@ import axios from "common/axios";
 import { toast } from "react-toastify";
 
 // 编辑库存组件
-class AddInventory extends React.Component {
+class EditInventory extends React.Component {
   state = {
     id: "",
     name: "",
@@ -163,4 +163,4 @@ class AddInventory extends React.Component {
   }
 }
 
-export default AddInventory;
+export default EditInventory;

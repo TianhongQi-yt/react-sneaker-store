@@ -2,8 +2,9 @@ import React, { useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "common/axios";
 
-// 购物车商品信息组件
+// 购物车商品信息组件（hooks函数式组件）
 const CartItem = (props) => {
+  // amount相当于类组件中的 state的属性，setAmount相当于 setState
   const [amount, setAmount] = useState(props.cart.amount);
   const { id, name, image, price } = props.cart || {};
 
@@ -29,6 +30,7 @@ const CartItem = (props) => {
 
   // 辅助函数：useMemo
   // 返回一个 memorized值，仅在某个依赖改变时才会重新计算 memorized值, 减少不必要的渲染
+  // 类似类组件 shouldComponentUpdate
   const totalPrice = useMemo(() => {
       return price * amount
   }, [price, amount]);

@@ -10,6 +10,7 @@ const Cart = () => {
   const [carts, setCarts] = useState([]);
 
   // 第一次渲染或每次更新后执行回调函数
+  // 相当于类组件中的生命周期函数
   // useEffect(callback, [依赖])，依赖变化后会重新调用
   useEffect(() => {
     // 根据登录用户查询购物车信息
@@ -64,7 +65,7 @@ const Cart = () => {
         {carts.length === 0 ? <p className="no-cart">Cart is Empty</p> : ""}
         <div className="cart-total">
           Total:
-          {/* 精度丢失问题 toFixed(5)保留5位小时 */}
+          {/* 精度丢失问题 toFixed(5)保留 5位小数 */}
           <span className="total-price">
             $ {parseFloat(totalPrice.toFixed(5))}
           </span>

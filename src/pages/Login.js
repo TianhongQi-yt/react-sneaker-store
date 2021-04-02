@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 
 // 登陆组件
 const Login = (props) => {
+  // react hook 表单函数
   const { register, handleSubmit, errors } = useForm();
 
   // 辅助函数：向后端请求 JWT

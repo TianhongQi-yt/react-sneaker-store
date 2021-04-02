@@ -24,7 +24,7 @@ const axios = (baseURL) => {
   return instance;
 };
 
-// 到处传参形式
+// 导出传参形式
 export { axios };
 
 // 默认导出无参形式

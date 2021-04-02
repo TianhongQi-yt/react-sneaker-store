@@ -6,7 +6,7 @@ import Product from "components/Product";
 import panel from "components/Panel"; // 导入全局组件弹出层 panel
 import AddInventory from "components/AddInventory"; // 需要被传递的子组件
 
-// 全部商品信息组件
+// 全部商品信息类组件
 class Products extends React.Component {
   state = {
     products: [], // 当前商品信息

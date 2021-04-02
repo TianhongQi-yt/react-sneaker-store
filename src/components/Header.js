@@ -3,7 +3,7 @@ import UserProfile from "components/UserProfile";
 import panel from "components/Panel";
 import { Link, withRouter } from "react-router-dom";
 
-// 页眉组件
+// 页眉函数组件
 const Header = (props) => {
     // 将父组件 Layout的数据传给全局组件 panel
   const toProfile = () => {
