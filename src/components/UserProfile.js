@@ -1,8 +1,9 @@
 import React from "react";
 
+// 用户信息
 const UserProfile = (props) => {
 
-  // 登出 (移除JWToken)
+  // 登出 (移除Token)
   const logout = () => {
     localStorage.removeItem("jwToken");
     props.close("logout");
@@ -49,13 +50,13 @@ const UserProfile = (props) => {
       <br />
       <br />
       <div className="field is-grouped is-grouped-centered">
-        {/* Loout按钮 */}
+        {/* Loout */}
         <div className="control">
           <button className="button is-danger" type="button" onClick={logout}>
             Logout
           </button>
         </div>
-        {/* Cancel按钮 */}
+        {/* Cancel */}
         <div className="control">
           <button
             className="button"

@@ -2,7 +2,7 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { toast } from "react-toastify";
 
-// 商品导航栏组件（搜索框，购物车）
+// 商品导航栏（搜索框，购物车）
 class ToolBox extends React.Component {
   state = {
     searchText: "",

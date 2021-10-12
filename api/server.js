@@ -8,17 +8,15 @@ const middleWares = jsonServer.defaults();
 server.use(jsonServer.bodyParser);
 server.use(middleWares);
 
-// 辅助函数：请求数据库 user.json
+// 模拟请求数据库 user.json
 const getUsersDb = () => {
   return JSON.parse(
-    // 读取文件
     fs.readFileSync(path.join(__dirname, "users.json"), "UTF-8")
   );
 };
 
-// 辅助函数：查询数据库，匹配用户信息
+// 模拟查询数据库
 const isAuthenticated = ({ email, password }) => {
-  // 找不到返回 -1
   return (
     getUsersDb().users.findIndex(
       (user) => user.email === email && user.password === password
@@ -29,16 +27,16 @@ const isAuthenticated = ({ email, password }) => {
 const SECRET = "12321JKLSJKLSDFJK23423432"; // 密钥
 const expiresIn = "1h"; // 超时
 
-// 辅助函数： 创建 JWT
+// 创建创建 token
 const createToken = (payload) => {
   return jwt.sign(payload, SECRET, { expiresIn });
 };
 
-// 登录
+// 登录 api
 server.post("/auth/login", (req, res) => {
   const { email, password } = req.body;
 
-  // 校验成功，返回 JWT (Jason Web Token)给客户端
+  // 校验成功，返回 JWT
   if (isAuthenticated({ email, password })) {
     const user = getUsersDb().users.find(
       (user) => user.email === email && user.password === password
@@ -53,18 +51,18 @@ server.post("/auth/login", (req, res) => {
   }
 });
 
-// 注册
+// 注册 api
 server.post("/auth/register", (req, res) => {
   const { email, password, username, type } = req.body;
 
-  // 检查是否注册过用户信息
+  // 校验是否注册
   if (isAuthenticated(email)) {
     const status = 401;
     const message = "Tihs Email has been registed!";
     return res.status(status).json({ status, message });
   }
 
-  // 存入数据库（写入 user.json文件）
+  // 模拟入库
   fs.readFile(path.join(__dirname, "users.json"), (err, _data) => {
     if (err) {
       const status = 401;
@@ -88,7 +86,6 @@ server.post("/auth/register", (req, res) => {
     );
   });
 
-  // 返回 JWT给用户
   const jwToken = createToken({ username, type, email });
   res.status(200).json(jwToken);
 });
@@ -100,27 +97,28 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
 .f4hfN1IjU4E23Lo44N-2VLzc1qoyNu1oZg2iQreZTfU
 */
 
-// 验证 JWT
+// 验证 token
 const verifyToken = (token) => {
   return jwt.verify(token, SECRET, (err, decode) =>
     decode !== undefined ? decode : err
   );
 };
 
-// 中间件，验证当前访问是否携带 JWT
+// 中间件，验证 token
 server.use("/carts", (req, res, next) => {
-  // 判断 req头部字段
   if (
     req.headers.authorization === undefined ||
     req.headers.authorization.split(" ")[0] !== "Bearer"
-  ) { // 请求格式错误
+  ) {
     const status = 401;
     const message = "Error in authorization format";
     res.status(status).json({ status, message });
     return;
   }
   try {
-    const verifyTokenResult = verifyToken(req.headers.authorization.split(" ")[1]);
+    const verifyTokenResult = verifyToken(
+      req.headers.authorization.split(" ")[1]
+    );
     if (verifyTokenResult instanceof Error) {
       const status = 401;
       const message = "Access token not provided";

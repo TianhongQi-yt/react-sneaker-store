@@ -5,13 +5,12 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "css/app.scss";
 import "css/style.scss";
+import 'common/authorization'; 
 
-import 'common/authorization'; // 全局导入
-
-// 渲染进根节点元素
+// React节点
 ReactDOM.render(
   <div>
-    {/* 全局渲染通知组件 */}
+    {/* 全局通知组件 */}
     <ToastContainer
       position="top-right"
       autoClose={3000}

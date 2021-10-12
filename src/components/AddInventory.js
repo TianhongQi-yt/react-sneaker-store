@@ -2,7 +2,7 @@ import React from "react";
 import axios from "common/axios";
 import { toast } from "react-toastify";
 
-// 新增库存组件
+// 新增库存（class）
 class AddInventory extends React.Component {
   state = {
     name: "",
@@ -12,24 +12,21 @@ class AddInventory extends React.Component {
     status: "available",
   };
 
-  // 事件：表单信息变化
+  // 表单变化
   handleChange = (event) => {
-    // 获取表单变化的 value和 name
     const value = event.target.value;
     const name = event.target.name;
-    // 根据表单 name动态的设置 state值
     this.setState({
       [name]: value,
     });
   };
 
-  // 事件：提交 form表单，创建新的商品信息
+  // 提交
   submit = (event) => {
     event.preventDefault();
     const updateProducts = { ...this.state };
-    // 通过 RESTful API的形式向后端新增数据
     axios.post("products", updateProducts).then((res) => {
-      // 回调父组件 Panel中 close()方法，关闭弹出层，并回传新增的商品信息 res.data
+      // 回调父组件 Panel的 close()方法
       this.props.close(res.data);
       toast.success("Create Item Successfully!");
     });
@@ -39,13 +36,11 @@ class AddInventory extends React.Component {
     return (
       <div className="inventory">
         <p className="title has-text-centered">Inventory</p>
-        {/* 表单主体 */}
         <form onSubmit={this.submit}>
-          {/* 商品名称 */}
+          {/* 商品 */}
           <div className="field">
             <div className="control">
               <label className="label has-text-left">Name</label>
-              {/* 区别于 html，使用 value属性对标签内容赋值 */}
               <textarea
                 className="textarea"
                 name="name"
@@ -111,16 +106,13 @@ class AddInventory extends React.Component {
           </div>
           <br />
           <div className="field is-grouped is-grouped-centered">
-            {/* Submit按钮 */}
             <div className="control">
               <button className="button is-link">Submit</button>
             </div>
-            {/* cancel按钮，关闭弹出层 */}
             <div className="control">
               <button
                 className="button"
                 type="button"
-                // 调用一个 空参方法，防止创建空商品
                 onClick={() => {
                   this.props.close();
                 }}

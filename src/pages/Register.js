@@ -3,11 +3,11 @@ import axios from "common/axios";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-// 登陆组件
+// 登陆
 const Register = (props) => {
   const { register, handleSubmit, errors } = useForm();
 
-  // 事件：注册新用户
+  // 注册新用户
   const onSubmit = async (user) => {
     try {
       const { username, email, password } = user;
@@ -18,10 +18,9 @@ const Register = (props) => {
         type: 0,
       });
       const jwToken = res.data;
-      // 将注册返回的 JWT保存在本地缓存 localStorage中
+      // 本地缓存 localStorage后跳转首页
       localStorage.setItem("jwToken", jwToken);
       toast.success(`Registered Successfully!`);
-      // 跳转到首页视图
       props.history.push("/");
     } catch (error) {
       const errMessage = error.response.data.message;
@@ -30,7 +29,6 @@ const Register = (props) => {
   };
 
   return (
-    // JSX Babel渲染
     <div className="login-wrapper">
       <form className="box login-box" onSubmit={handleSubmit(onSubmit)}>
         {/* 注册用户名 */}
@@ -43,7 +41,6 @@ const Register = (props) => {
               placeholder="Username"
               name="username"
               ref={register({
-                // 自定义 required的错误信息
                 required: "Username is Required!",
               })}
             />
@@ -65,9 +62,10 @@ const Register = (props) => {
               name="email"
               ref={register({
                 required: "Email is Required!",
-                // 正则表达式规定输入格式
+                // 正则表达式匹配
                 pattern: {
-                  value: /^[A-Za-z0-9]+([_\\.][A-Za-z0-9]+)*@([A-Za-z0-9\\-]+\.)+[A-Za-z]{2,6}$/,
+                  value:
+                    /^[A-Za-z0-9]+([_\\.][A-Za-z0-9]+)*@([A-Za-z0-9\\-]+\.)+[A-Za-z]{2,6}$/,
                   message: "Invalid Email Format!",
                 },
               })}

@@ -6,11 +6,12 @@ import Register from 'pages/Register';
 import NotFound from 'pages/NotFound';
 import Cart from 'pages/Cart';
 
+// 路由
 const Router = () => {
     return (
     <BrowserRouter>
         <Switch>
-            {/* exact访问根路径精确匹配，避免匹配其他 */}
+            {/* exact 精确匹配*/}
             <Route path="/" exact component={ App } />
             <Route path="/login" component={ Login } />
             <Route path="/register" component={ Register } />

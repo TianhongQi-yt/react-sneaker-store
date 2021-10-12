@@ -4,21 +4,17 @@ import Layout from "Layout";
 import axios from "common/axios";
 import CartItem from "components/CartItem";
 
-// React Hook 不编写 class的情况下使用 state及其他特性
+// 购物车
 const Cart = () => {
-  // 定义 carts和 setCarts方法
   const [carts, setCarts] = useState([]);
 
-  // 第一次渲染或每次更新后执行回调函数
-  // 相当于类组件中的生命周期函数
-  // useEffect(callback, [依赖])，依赖变化后会重新调用
+  // useEffect 页面刷新和第一次渲染查询购物车信息
   useEffect(() => {
-    // 根据登录用户查询购物车信息
     const user = global.auth.getUser() || {};
-    axios.get(`/carts?userId=${user.email}`).then(res => setCarts(res.data));
+    axios.get(`/carts?userId=${user.email}`).then((res) => setCarts(res.data));
   }, []);
 
-  // 辅助函数：计算总价格
+  // 计算总价格
   const totalPrice = useMemo(() => {
     const totalPrice = carts
       .map((cart) => cart.amount * cart.price)
@@ -26,7 +22,7 @@ const Cart = () => {
     return totalPrice;
   }, [carts]);
 
-  // 回调函数：接收子组件 CartItem收据，更新并渲染购物车
+  // 更新购物车
   const updateCart = (cart) => {
     const newCarts = [...carts];
     const cartIndex = newCarts.findIndex((c) => c.id === cart.id);
@@ -34,7 +30,7 @@ const Cart = () => {
     setCarts(newCarts);
   };
 
-  // 回调函数：接收子组件 CartItem数据，删除并渲染购物车
+  // 删除购物车
   const deleteCart = (cart) => {
     const newCarts = carts.filter((c) => c.id !== cart.id);
     setCarts(newCarts);
